@@ -1,82 +1,76 @@
-import 'package:auto_injector/auto_injector.dart';
 
-import '../../data/services/theme_local_storage_interface.dart';
-import '../../data/services/theme_shared_preferences_impl.dart';
-import '../../data/repositories/theme_repository_interface.dart';
-import '../../data/repositories/theme_repository_impl.dart';
-import '../../domain/usecases/theme_usecases_interfaces.dart';
-import '../../domain/usecases/theme_usecases_impl.dart';
-import '../../domain/facades/theme_facade_interface.dart';
-import '../../domain/facades/theme_facade_impl.dart';
-import '../../presentation/theme/theme_commands.dart';
-import '../../presentation/theme/theme_viewmodel.dart';
-
-// ====================== STUDENT ======================
-import '../../data/services/student_local_storage_interface.dart';
 import '../../data/services/student_shared_preferences_impl.dart';
+import '../../data/services/student_local_storage_interface.dart';
+import '../../data/services/theme_shared_preferences_impl.dart';
+import '../../data/services/theme_local_storage_interface.dart';
 
-import '../../data/repositories/student_repository_interface.dart';
 import '../../data/repositories/student_repository_impl.dart';
+import '../../data/repositories/student_repository_interface.dart';
+import '../../data/repositories/theme_repository_impl.dart';
+import '../../data/repositories/theme_repository_interface.dart';
 
-import '../../domain/usecases/student_usecases_interface.dart';
 import '../../domain/usecases/student_usecases_impl.dart';
+import '../../domain/usecases/student_usecases_interface.dart';
+import '../../domain/usecases/theme_usecases_impl.dart';
+import '../../domain/usecases/theme_usecases_interfaces.dart';
 
-import '../../domain/facades/student_facade_interface.dart';
 import '../../domain/facades/student_facade_impl.dart';
+import '../../domain/facades/student_facade_interface.dart';
+import '../../domain/facades/theme_facade_impl.dart';
+import '../../domain/facades/theme_facade_interface.dart';
 
-import '../../presentation/controllers/student_commands.dart';
-import '../../presentation/controllers/students_viewmodel.dart';
+import '../theme/theme_controller.dart';
+import '../../presentation/commands/theme_commands.dart';
+import '../../presentation/controllers/students_view_model.dart';
+import '../../presentation/controllers/theme_viewmodel.dart';
+import '../../presentation/controllers/splash_viewmodel.dart';
 
-final injector = AutoInjector();
+late final ThemeViewModel themeViewModel;
+late final StudentsViewModel studentsViewModel;
+late final SplashViewModel splashViewModel;
 
 void setupDependencyInjection() {
+  final IThemeLocalStorage themeStorage = ThemeSharedPreferencesService();
+  final IStudentLocalStorage studentStorage = StudentSharedPreferencesService();
 
-  injector.addSingleton<IThemeLocalStorage>(
-    ThemeSharedPreferences.new,
+  final IStudentRepository studentRepository = StudentRepositoryImpl(
+    localStorage: studentStorage,
+  );
+  final IThemeRepository themeRepository = ThemeRepositoryImpl(themeStorage);
+
+  final IThemeUseCases themeUseCases = ThemeUseCasesImpl(themeRepository);
+
+  final IGetAllStudentsUseCase getAllStudents = GetAllStudentsUseCaseImpl(
+    repository: studentRepository,
+  );
+  final IGetStudentByIdUseCase getStudentById = GetStudentByIdUseCaseImpl(
+    repository: studentRepository,
+  );
+  final ISaveStudentUseCase saveStudent = SaveStudentUseCaseImpl(
+    repository: studentRepository,
+  );
+  final IUpdateStudentUseCase updateStudent = UpdateStudentUseCaseImpl(
+    repository: studentRepository,
+  );
+  final IDeleteStudentUseCase deleteStudent = DeleteStudentUseCaseImpl(
+    repository: studentRepository,
   );
 
-  injector.addSingleton<IThemeRepository>(
-    ThemeRepositoryImpl.new,
+  final IThemeFacade themeFacade = ThemeFacadeImpl(themeUseCases);
+  final IStudentFacadeUseCases studentFacade = StudentFacadeUseCasesImpl(
+    getAllStudentsUseCase: getAllStudents,
+    getStudentByIdUseCase: getStudentById,
+    saveStudentUseCase: saveStudent,
+    updateStudentUseCase: updateStudent,
+    deleteStudentUseCase: deleteStudent,
   );
 
-  injector.addSingleton<IThemeUseCases>(
-    ThemeUseCasesImpl.new,
-  );
+  final themeController = ThemeController();
 
-  injector.addSingleton<IThemeFacade>(
-    ThemeFacadeImpl.new,
-  );
+  final getThemeCommand = GetThemeCommand(themeFacade);
+  final toggleThemeCommand = ToggleThemeCommand(themeFacade);
 
-  injector.addSingleton<ThemeViewModel>(() {
-    final facade = injector.get<IThemeFacade>();
-
-    return ThemeViewModel(
-      getThemeCommand: GetThemeCommand(facade),
-      toggleThemeCommand: ToggleThemeCommand(facade),
-    );
-  });
-
-  injector.addSingleton<IStudentLocalStorage>(
-    StudentSharedPreferences.new,
-  );
-
-  injector.addSingleton<IStudentRepository>(
-    StudentRepositoryImpl.new,
-  );
-
-  injector.addSingleton<IStudentUseCases>(
-    StudentUseCasesImpl.new,
-  );
-
-  injector.addSingleton<IStudentFacade>(
-    StudentFacadeImpl.new,
-  );
-
-  injector.addSingleton<StudentsViewModel>(() {
-    final facade = injector.get<IStudentFacade>();
-
-    return StudentsViewModel(facade);
-  });
-
-  injector.commit();
+  themeViewModel = ThemeViewModel(themeController, getThemeCommand, toggleThemeCommand);
+  studentsViewModel = StudentsViewModel(studentFacade);
+  splashViewModel = SplashViewModel(themeViewModel);
 }

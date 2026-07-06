@@ -1,5 +1,5 @@
-import 'theme_usecases_interface.dart';
-import '../repositories/theme_repository_interface.dart';
+import 'theme_usecases_interfaces.dart';
+import '../../data/repositories/theme_repository_interface.dart';
 
 class ThemeUseCasesImpl implements IThemeUseCases {
   final IThemeRepository repository;

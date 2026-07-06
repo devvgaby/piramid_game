@@ -19,13 +19,23 @@ abstract base class Command<Success, Error>
   late final isSuccess = computed(() => _result.value?.isSuccess ?? false);
 
   Future<Result<Success, Error>> call() async {
-    if (_running.value) return _result.value!; 
-    _running.value = true; 
-    _result.value = null;
-    _result.value = await execute(); 
-    _running.value = false; 
+  if (_running.value) {
+    while (_running.value) {
+      await Future.delayed(const Duration(milliseconds: 10));
+    }
+
     return _result.value!;
   }
+
+  _running.value = true;
+  _result.value = null;
+
+  _result.value = await execute();
+
+  _running.value = false;
+
+  return _result.value!;
+}
 
   void clear() {
     _result.value = null;

@@ -3,7 +3,6 @@ import '../../domain/models/student_entity.dart';
 import '../services/student_local_storage_interface.dart';
 import 'student_repository_interface.dart';
 
-/// implementação do repositório de student
 
 final class StudentRepositoryImpl implements IStudentRepository {
   final IStudentLocalStorage _localStorage;

@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'theme_local_storage_interface.dart';
 
-class ThemeSharedPreferences implements IThemeLocalStorage {
+class ThemeSharedPreferencesService implements IThemeLocalStorage {
   static const _key = 'isDarkTheme';
 
   @override

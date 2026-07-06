@@ -1,35 +1,42 @@
-import '../../core/patterns/command.dart';
-import '../../core/failure/failure.dart';
-import '../facade/theme_facade_interface.dart';
+import 'package:flutter/foundation.dart';
+import '../../domain/facades/theme_facade_interface.dart';
 
-class GetThemeCommand extends Command<void, bool, Failure> {
+class GetThemeCommand {
   final IThemeFacade facade;
+  final ValueNotifier<bool?> resultSignal = ValueNotifier(null);
+  final ValueNotifier<bool> isExecuting = ValueNotifier(false);
 
   GetThemeCommand(this.facade);
 
-  @override
   Future<void> execute(void input) async {
+    isExecuting.value = true;
     try {
       final result = await facade.useCases.getTheme();
       resultSignal.value = result;
     } catch (e) {
-      setFailure(DefaultFailure(e.toString()));
+      resultSignal.value = false;
+    } finally {
+      isExecuting.value = false;
     }
   }
 }
 
-class ToggleThemeCommand extends Command<bool, bool, Failure> {
+class ToggleThemeCommand {
   final IThemeFacade facade;
+  final ValueNotifier<bool?> resultSignal = ValueNotifier(null);
+  final ValueNotifier<bool> isExecuting = ValueNotifier(false);
 
   ToggleThemeCommand(this.facade);
 
-  @override
-  Future<void> execute(bool input) async {
+  Future<void> execute(bool current) async {
+    isExecuting.value = true;
     try {
-      final result = await facade.useCases.toggleTheme(input);
+      final result = await facade.useCases.toggleTheme(current);
       resultSignal.value = result;
     } catch (e) {
-      setFailure(DefaultFailure(e.toString()));
+      resultSignal.value = !current;
+    } finally {
+      isExecuting.value = false;
     }
   }
 }

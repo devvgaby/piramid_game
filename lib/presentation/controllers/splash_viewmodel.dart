@@ -1,3 +1,5 @@
+import 'theme_viewmodel.dart';
+
 class SplashViewModel {
   final ThemeViewModel themeViewModel;
 

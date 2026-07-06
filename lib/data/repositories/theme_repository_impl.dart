@@ -8,11 +8,11 @@ class ThemeRepositoryImpl implements IThemeRepository {
 
   @override
   Future<bool> getTheme() {
-    return local.getThemeMode();
+    return local.getTheme();
   }
 
   @override
   Future<void> saveTheme(bool isDark) {
-    return local.saveThemeMode(isDark ? 'dark' : 'light');
+    return local.saveTheme(isDark);
   }
 }
