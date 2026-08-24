@@ -42,7 +42,7 @@ class StudentCard extends StatelessWidget {
           color: isDark ? AppColors.borderDark : AppColors.borderLight,
         ),
       ),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -78,7 +78,7 @@ class StudentCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           Row(
             children: [
               _Tag(student.course.displayName),
@@ -110,7 +110,7 @@ class StudentCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
           Row(
             children: [
               Expanded(

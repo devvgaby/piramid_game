@@ -24,17 +24,18 @@ abstract base class Command<Success, Error>
       await Future.delayed(const Duration(milliseconds: 10));
     }
 
-    return _result.value!;
+    return _result.value ?? await execute();
   }
 
   _running.value = true;
   _result.value = null;
 
-  _result.value = await execute();
+  final result = await execute();
 
+  _result.value = result;
   _running.value = false;
 
-  return _result.value!;
+  return result;
 }
 
   void clear() {
