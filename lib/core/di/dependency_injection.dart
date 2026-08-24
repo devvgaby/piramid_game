@@ -1,7 +1,7 @@
 
-import '../../data/services/student_shared_preferences_impl.dart';
+import '../../data/services/student_sqlite_impl.dart';
 import '../../data/services/student_local_storage_interface.dart';
-import '../../data/services/theme_shared_preferences_impl.dart';
+import '../../data/services/theme_sqlite_impl.dart';
 import '../../data/services/theme_local_storage_interface.dart';
 
 import '../../data/repositories/student_repository_impl.dart';
@@ -30,8 +30,8 @@ late final StudentsViewModel studentsViewModel;
 late final SplashViewModel splashViewModel;
 
 void setupDependencyInjection() {
-  final IThemeLocalStorage themeStorage = ThemeSharedPreferencesService();
-  final IStudentLocalStorage studentStorage = StudentSharedPreferencesService();
+  final IThemeLocalStorage themeStorage = ThemeSqliteService();
+  final IStudentLocalStorage studentStorage = StudentSqliteService();
 
   final IStudentRepository studentRepository = StudentRepositoryImpl(
     localStorage: studentStorage,
