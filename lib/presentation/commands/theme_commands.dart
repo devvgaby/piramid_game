@@ -1,10 +1,10 @@
-import 'package:flutter/foundation.dart';
+import 'package:signals_flutter/signals_flutter.dart';
 import '../../domain/facades/theme_facade_interface.dart';
 
 class GetThemeCommand {
   final IThemeFacade facade;
-  final ValueNotifier<bool?> resultSignal = ValueNotifier(null);
-  final ValueNotifier<bool> isExecuting = ValueNotifier(false);
+  final resultSignal = signal<bool?>(null);
+  final isExecuting = signal<bool>(false);
 
   GetThemeCommand(this.facade);
 
@@ -23,8 +23,8 @@ class GetThemeCommand {
 
 class ToggleThemeCommand {
   final IThemeFacade facade;
-  final ValueNotifier<bool?> resultSignal = ValueNotifier(null);
-  final ValueNotifier<bool> isExecuting = ValueNotifier(false);
+  final resultSignal = signal<bool?>(null);
+  final isExecuting = signal<bool>(false);
 
   ToggleThemeCommand(this.facade);
 
