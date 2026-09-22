@@ -9,7 +9,7 @@ class ThemeViewModel {
 
   ThemeViewModel(this.controller, this.getThemeCommand, this.toggleThemeCommand);
 
-  ValueNotifier<ThemeMode> get themeMode => controller.themeMode;
+  get themeMode => controller.themeMode;
 
   Future<void> loadTheme() async {
     await getThemeCommand.execute(null);
