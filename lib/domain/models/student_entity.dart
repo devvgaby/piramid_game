@@ -35,21 +35,8 @@ class StudentEntity extends Equatable {
   final String nickname;
   final DateTime birthDate;
 
-  final int resenha;
-  final int presencaVip;
-  final int aura;
-  final int modoParceiro;
-  final int carismaNatural;
-  final int humorMilhoes;
-  final int energiaGrupo;
-  final int criatividadeCaotica;
-  final int modoAtleta;
-  final int talentoPalco;
-  final int dripEscolar;
-  final int coracaoDorama;
-  final int queridinhoProfessores;
-  final int cerebroTurbo;
-  final int caosControlado;
+  final String? criadoPorUid;
+  final String? criadoPorEmail;
 
   const StudentEntity({
     required this.id,
@@ -58,50 +45,10 @@ class StudentEntity extends Equatable {
     required this.classYear,
     required this.nickname,
     required this.birthDate,
-    required this.resenha,
-    required this.presencaVip,
-    required this.aura,
-    required this.modoParceiro,
-    required this.carismaNatural,
-    required this.humorMilhoes,
-    required this.energiaGrupo,
-    required this.criatividadeCaotica,
-    required this.modoAtleta,
-    required this.talentoPalco,
-    required this.dripEscolar,
-    required this.coracaoDorama,
-    required this.queridinhoProfessores,
-    required this.cerebroTurbo,
-    required this.caosControlado,
+    this.criadoPorUid,
+    this.criadoPorEmail,
   });
 
-  int get legendLevel =>
-      resenha +
-      presencaVip +
-      aura +
-      modoParceiro +
-      carismaNatural +
-      humorMilhoes +
-      energiaGrupo +
-      criatividadeCaotica +
-      modoAtleta +
-      talentoPalco +
-      dripEscolar +
-      coracaoDorama +
-      queridinhoProfessores +
-      cerebroTurbo +
-      caosControlado;
-
-  String get levelName {
-  if (legendLevel <= 24) return 'Mortal';
-  if (legendLevel <= 34) return 'Guerreiro';
-  if (legendLevel <= 44) return 'Elite';
-  if (legendLevel <= 54) return 'Mestre';
-  if (legendLevel <= 64) return 'Lenda';
-  if (legendLevel <= 70) return 'Aura';
-
-  return 'Chaos';
-}
   void validate() {
     if (name.trim().isEmpty) {
       throw ArgumentError('Nome é obrigatório');
@@ -109,32 +56,6 @@ class StudentEntity extends Equatable {
 
     if (classYear < 1998 || classYear > 2026) {
       throw ArgumentError('Turma deve estar entre 1998 e 2026');
-    }
-
-    final scores = [
-      resenha,
-      presencaVip,
-      aura,
-      modoParceiro,
-      carismaNatural,
-      humorMilhoes,
-      energiaGrupo,
-      criatividadeCaotica,
-      modoAtleta,
-      talentoPalco,
-      dripEscolar,
-      coracaoDorama,
-      queridinhoProfessores,
-      cerebroTurbo,
-      caosControlado,
-    ];
-
-    for (final score in scores) {
-      if (score < 1 || score > 5) {
-        throw ArgumentError(
-          'Todos os critérios devem possuir nota entre 1 e 5',
-        );
-      }
     }
   }
 
@@ -145,21 +66,8 @@ class StudentEntity extends Equatable {
     int? classYear,
     String? nickname,
     DateTime? birthDate,
-    int? resenha,
-    int? presencaVip,
-    int? aura,
-    int? modoParceiro,
-    int? carismaNatural,
-    int? humorMilhoes,
-    int? energiaGrupo,
-    int? criatividadeCaotica,
-    int? modoAtleta,
-    int? talentoPalco,
-    int? dripEscolar,
-    int? coracaoDorama,
-    int? queridinhoProfessores,
-    int? cerebroTurbo,
-    int? caosControlado,
+    String? criadoPorUid,
+    String? criadoPorEmail,
   }) {
     return StudentEntity(
       id: id ?? this.id,
@@ -168,22 +76,8 @@ class StudentEntity extends Equatable {
       classYear: classYear ?? this.classYear,
       nickname: nickname ?? this.nickname,
       birthDate: birthDate ?? this.birthDate,
-      resenha: resenha ?? this.resenha,
-      presencaVip: presencaVip ?? this.presencaVip,
-      aura: aura ?? this.aura,
-      modoParceiro: modoParceiro ?? this.modoParceiro,
-      carismaNatural: carismaNatural ?? this.carismaNatural,
-      humorMilhoes: humorMilhoes ?? this.humorMilhoes,
-      energiaGrupo: energiaGrupo ?? this.energiaGrupo,
-      criatividadeCaotica: criatividadeCaotica ?? this.criatividadeCaotica,
-      modoAtleta: modoAtleta ?? this.modoAtleta,
-      talentoPalco: talentoPalco ?? this.talentoPalco,
-      dripEscolar: dripEscolar ?? this.dripEscolar,
-      coracaoDorama: coracaoDorama ?? this.coracaoDorama,
-      queridinhoProfessores:
-          queridinhoProfessores ?? this.queridinhoProfessores,
-      cerebroTurbo: cerebroTurbo ?? this.cerebroTurbo,
-      caosControlado: caosControlado ?? this.caosControlado,
+      criadoPorUid: criadoPorUid ?? this.criadoPorUid,
+      criadoPorEmail: criadoPorEmail ?? this.criadoPorEmail,
     );
   }
 
@@ -195,21 +89,8 @@ class StudentEntity extends Equatable {
         classYear,
         nickname,
         birthDate,
-        resenha,
-        presencaVip,
-        aura,
-        modoParceiro,
-        carismaNatural,
-        humorMilhoes,
-        energiaGrupo,
-        criatividadeCaotica,
-        modoAtleta,
-        talentoPalco,
-        dripEscolar,
-        coracaoDorama,
-        queridinhoProfessores,
-        cerebroTurbo,
-        caosControlado,
+        criadoPorUid,
+        criadoPorEmail,
       ];
 
   @override
@@ -220,7 +101,7 @@ class StudentEntity extends Equatable {
         'course: ${course.name}, '
         'classYear: $classYear, '
         'nickname: $nickname, '
-        'legendLevel: $legendLevel'
+        'criadoPorEmail: $criadoPorEmail'
         ')';
   }
 }
