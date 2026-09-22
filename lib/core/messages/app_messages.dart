@@ -18,6 +18,9 @@ class _Error {
   final String invalidNameError = 'Nome é obrigatório.';
   final String invalidClassYearError = 'Turma deve estar entre 1998 e 2026.';
   final String invalidScoreError = 'Todos os critérios devem possuir nota entre 1 e 5.';
+
+  final String authError = 'Erro de autenticação.';
+  final String selfEvaluationError = 'Você não pode avaliar a si mesmo.';
 }
 
 class _Success {

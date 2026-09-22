@@ -43,3 +43,13 @@ class InvalidScoreFailure extends Failure {
   InvalidScoreFailure([String? msg])
       : super(msg ?? AppMessages.error.invalidScoreError);
 }
+
+class AuthFailure extends Failure {
+  AuthFailure([String? msg])
+      : super(msg ?? AppMessages.error.authError);
+}
+
+class SelfEvaluationFailure extends Failure {
+  SelfEvaluationFailure([String? msg])
+      : super(msg ?? AppMessages.error.selfEvaluationError);
+}
